@@ -1,0 +1,180 @@
+#include<iostream>
+#include<map>
+#include<string>
+#define MAX 20
+int a[MAX],tos=-1;
+std::map<long int,std::string> book_name_id;
+std::map<unsigned long long int,long int>person_id;
+std::map<std::string,std::string>book_author;
+unsigned long long int registered_num[]={8975885547,8535743786,8657903567,9857947485};
+using namespace std;
+int addBook()
+{
+	long int book_id;
+	string book_name,author_name;
+	cout<<"Enter your Book id to insert :\n";
+	cin >>book_id;
+	cout<<"Enter your Book name to insert :\n";
+	cin >>book_name;
+	cout<<"Enter Author name to insert :\n";
+	cin>>author_name;
+	if(tos==MAX-1)
+	{
+    cout <<"Stack is Full:\n";
+	}
+	else
+	{
+		
+	  tos=tos+1;
+	  a[tos]=book_id;
+  book_name_id.insert(std::pair<long int,string>(a[tos],book_name));
+  book_author.insert(std::pair<string,string>(book_name,author_name));
+	
+    }
+	 
+}
+
+int move_Books()
+{
+	long int book_id;
+	unsigned long long int regid;
+	cout<<"Enter book id:\n";
+	cin>>book_id;
+	cout<<"Enter registered number of the person:\n";
+	
+	cin>>regid;
+	if(tos==-1)
+	{
+		cout<<"No records Found:\n";	
+	}
+	else
+	{
+		
+    		person_id.insert(std::pair<unsigned long long int,long int>(regid,book_id));
+	
+	}
+}
+int Display_All_Books()
+   {
+        int i;
+        if(tos==-1)
+           {
+   	        cout <<"No records Found!!\n";
+	       }
+	    else
+        	{
+	    	cout<< "The Books found in The Record are:\n";
+	    	for(i=0;i<=tos;i++)
+	         	{
+		        	
+		        	for(std::map<long int,string>::iterator it =book_name_id.begin();it != book_name_id.end();it++)
+                           {
+                              
+                              
+		                        cout<<it->first<<"\n";
+                                cout<<it->second<<"\n";
+                        }
+                            
+                    
+                            
+				}
+	    	}	
+	
+   }
+
+int searchForBooks()
+{
+	char bookname[50];
+	cout<<"enter book name:\n";
+	cin>>bookname;
+	for(std::map<long int,string>::iterator it =book_name_id.begin();it != book_name_id.end();it++)
+	{
+		if(it->second==bookname)
+		{
+			cout<<"Book id: "<<it->first<<"\n";
+			cout<<"Book Name: "<<it->second<<"\n";
+		}
+		else
+		{
+			cout<<"Book not found:\n";
+		}
+	}
+}
+
+int update_Details()
+{ 
+   unsigned long long int new_regid;
+   cout<<"Enter new registered number to register:\n";
+  
+    cin>>new_regid;
+	registered_num[sizeof(registered_num)/8+1]=new_regid;
+	cout<<"Your Registration Successful!!";
+}
+
+
+int main()
+{
+	
+	
+	 int ch = 1,opt,num1;
+	int c=0;
+	unsigned long long int registered_num[]={8975885547,8535743786,8657903567,9857947485},num;
+	cout<<"Enter your registered Number to login:\n";
+	 cout<<" If there is no account..create new account:\n"<<"for creating acount enter 1 else enter 0:\n";
+   if(num1==1)
+   {
+   	update_Details();
+   	cout<<"Now enter your registered Number to login:\n";
+   }
+	cin>>num;
+	
+	for(int i=0;i<sizeof(registered_num)/8;i++)
+	{
+		if(num==registered_num[i])
+		    {
+		    	c++;
+			}
+	}
+	if(c==1)
+	{
+    do
+    {
+        cout<<"***     MENU    ***\n";
+        cout<<"1.Add Books\n";
+        cout<<"2.Search Books\n";
+        cout<<"3.View Books\n";
+        cout<<"4.Move Book to user account\n";
+        cout<<"5.Update details\n";
+        
+        cout<<"Enter your choice \n ";
+        cin >>opt;
+        switch(opt)
+        {
+        case 1:
+            addBook();
+            break;
+        case 2:
+            searchForBooks();
+            break;
+        case 3:
+            Display_All_Books();
+            break;
+        case 4:
+            move_Books();
+            break;
+        case 5:
+            update_Details();
+            break;
+
+        default:
+            cout<<"\nINVALID INPUT!! Try again\n";
+        }    
+		cout<<"\nDo you wanted to continue 1:Cotinue\t 0:Exit\t";
+		cin>>ch;                                 
+       }while(ch!=0); 
+   }
+else
+    {
+	cout<<"Registered account not fount.\n";
+    }
+}
